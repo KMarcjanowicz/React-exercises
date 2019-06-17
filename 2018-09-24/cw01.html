@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React.js</title>
+    <script src="https://unpkg.com/react@16.0.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+    <style>
+        form{
+            width: 300px;
+            height: 400px;
+            border: 5px solid blue;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 2em;
+            color: blue;
+            text-align: center;
+        }
+        input[type=text]{
+            display: block;
+            border: 4px solid blue;
+            margin-left: 42px;
+            width: 200px;
+            height: 40px;
+            color: green;
+            font-size: 1.2em;
+        }
+        input[type=submit]{
+            margin-top: 40px; 
+            border: 4px solid blue;
+            color: blue;
+            font-size: 1.2em;
+        }
+        p{
+            font-size: 1em;
+            color: green;
+            display: inline;
+        }
+        label{
+            margin-top: 10px; 
+            display: block;
+            font-size: 0.5em;
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="react-app"></div>
+    <script type="text/babel">
+        class MyForm extends React.Component {  
+
+            constructor(props) {
+                super(props);
+                this.state = {
+                    data: '',
+                    sending: 'niewysłane'
+               };
+
+                this.handleChange = this.handleChange.bind(this);
+                this.handleSubmit = this.handleSubmit.bind(this);
+            }
+
+            //na bieżąco przy wpisywaniu danych
+
+            handleChange(event) {
+                this.setState({ data: event.target.value, sending: "niewysłane" });
+            }
+
+            //przy wysłaniu formularza
+
+            handleSubmit(event) {
+                this.setState({
+                    data: "",
+                    sending: "wysłane"
+                })
+                //blokada przed wysłaniem formularza
+                event.preventDefault();
+            }
+
+            render() {
+                return (
+
+                    <form onSubmit={this.handleSubmit} >
+                        <h4>Formularz</h4>
+                        <input type="text" value={this.state.data} onChange={this.handleChange} />
+                        <input type="submit" value="send" />
+                        <div>
+                            <label>Status: <p>{this.state.sending}</p></label>
+                            <label>Data: <p>{this.state.data}</p></label>
+                        </div>
+                    </form>
+                );
+            }
+        }
+        ReactDOM.render(
+            <MyForm />,
+            document.getElementById('react-app')
+        )
+    </script>
+</body>
+
+</html>

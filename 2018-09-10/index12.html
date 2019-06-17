@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React.js</title>
+    <script src="https://unpkg.com/react@16.0.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+    <style>
+    </style>
+</head>
+
+<body>
+    <div id="react-app"></div>
+    <script type="text/babel">
+        var data = [
+            {
+                id: 1,
+                quantity: 2,
+                name: "masło",
+                action: "kupić"
+            },
+            {
+                id: 2,
+                quantity: 6,
+                name: "mleko",
+                action: "wylać"
+            },
+            {
+                id: 3,
+                quantity: 8,
+                name: "śmieci",
+                action: "uprzątnąć"
+            }
+        ]
+        
+        class Task extends React.Component {
+            render() {
+                return (
+                    <div>
+                        {this.props.id}. {this.props.quantity} x {this.props.name}
+                    </div>
+                );
+            }
+        }
+        class TaskList extends React.Component {
+            render() {
+                var lista = this.props.tasksProp.map(function (item) {
+                    return (
+                        <Task id={item.id} quantity={item.quantity} name={item.name} key={item.id}/>
+                    )
+                });
+                return (
+                    <div>
+                    { lista }
+                    </div>
+                );
+            }
+        }
+
+        ReactDOM.render(
+            <TaskList tasksProp={data} />,
+            document.getElementById('react-app')
+        );
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React.js</title>
+    <script src="https://unpkg.com/react@16.0.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+    <style>
+        form {
+            width: 600px;
+            height: 500px;
+            border: 5px solid blue;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 2em;
+            color: blue;
+            display: inline-block;
+            margin: 10px;
+            text-align: center
+        }
+        .sel{
+            width: 540px;
+            height: 150px;
+            display: block;
+            color: red;
+            border: 5px solid red;
+            margin: 20px;
+        }
+        select{
+            width: 500px;
+            height: 50px;
+            color: red;
+            font-size: 1.2em;
+            border: 4px solid red;
+            margin-top: 10px;
+        }
+        p{
+            margin: 0 auto;
+            text-align: center;
+        }
+        label{
+            margin: 0 auto; 
+            margin-top: 20px;
+            display: block;
+            font-size: 0.5em;
+            text-align: center;
+        }
+        h5{
+            display: inline;
+        }
+        input[type=submit]{
+            border: 4px solid blue;
+            color: blue;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="react-app"></div>
+    <script type="text/babel">
+
+        class MySelect extends React.Component {
+
+            constructor(props) {
+                super(props);
+                this.state = {
+                    data: ''
+               };
+
+                this.handleChange = this.handleChange.bind(this);
+            }
+
+            handleChange(event) {
+                this.setState({ data: event.target.value});
+                this.props.handleSubmit(event.target.value)
+            }
+
+            render() {
+                var array = [];
+                for(var i = 0; i < this.props.arr.length; i++){
+                    array.push(<option value={this.props.arr[i].name} key={this.props.arr[i].id}>{this.props.arr[i].name}</option>);
+                }
+                return(
+                    <div className="sel">
+                        <p>Component MySelect</p>
+                        <select onChange={this.handleChange} >{array}</select>
+                        <label>Wybrane z selecta: <h5>{this.state.data}</h5></label>
+                    </div>
+                )
+            }
+        }
+        class MyForm extends React.Component {
+
+            constructor(props) {
+                super(props);
+                this.state = {
+                    array: [
+                        { id: 0, name: "hamlet" },
+                        { id: 1, name: "krzyzacy" },
+                        { id: 2, name: "lalka" }
+                    ],
+                    array2: [
+                        { id: 0, name: "Kraków" },
+                        { id: 1, name: "Warszawa" },
+                        { id: 2, name: "Gdańsk" },
+                        { id: 3, name: "Toruń" }
+                    ],
+                    data: [],
+                    string: ''
+                 };
+
+                this.handleSubmit = this.handleSubmit.bind(this);
+                this.submittedData = this.submittedData.bind(this);
+            }
+            submittedData(x){
+                let tab = this.state.data;
+                tab.push(x)
+                console.log(tab);
+                this.setState({
+                    data: tab
+                })
+                event.preventDefault();
+            }
+            handleSubmit(event) {
+                var tab = this.state.data;
+                this.setState({
+                    string: JSON.stringify(tab)
+                })
+                event.preventDefault();
+                window.alert(this.state.data);
+            }
+
+            render() {
+                return (
+                <form onSubmit={this.handleSubmit}>
+                    <MySelect arr={this.state.array} handleSubmit={this.submittedData}/>
+                    <MySelect arr={this.state.array2} handleSubmit={this.submittedData} />
+                    <input type="submit" value="Submit" />
+                    <label>Wysłane: <h5>{this.state.string}</h5></label>
+                </form>
+                );
+            }
+        }
+
+        ReactDOM.render(
+            <div><MyForm /><MyForm /></div>,
+            document.getElementById('react-app')
+        )
+    </script>
+</body>
+
+</html>

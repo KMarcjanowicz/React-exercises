@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React.js</title>
+    <script src="https://unpkg.com/react@16.0.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+    <style>
+        form {
+            width: 300px;
+            height: 500px;
+            border: 5px solid blue;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 2em;
+            color: blue;
+            display: inline-block;
+            margin: 10px;
+            text-align: center
+        }
+        label{
+            margin: 0 auto; 
+            margin: 5px;
+            display: block;
+            text-align: left;
+            border: 4px solid green;
+            color: green;
+        }
+        input[type=checkbox]{
+            width: 28px;
+            height: 28px;
+        }
+        #suma{
+            border: none;
+            margin-top: 10px;
+            font-size: 0.7em;
+            text-align: center;
+        }
+        p{
+            display: inline;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="react-app"></div>
+    <script type="text/babel">
+
+        class MyCheckbox extends React.Component {
+
+            constructor(props) {
+                super(props);
+                this.state = {
+                    checked: false,
+               };
+
+                this.handleChange = this.handleChange.bind(this);
+            }
+
+            handleChange(event) {
+                console.log(this.state.checked)
+                console.log("click " + this.props.value + "$")
+                this.setState({ checked: !this.state.checked});
+                this.props.handleSubmit(event.target.value, event.target.checked)
+            }
+
+            render() {
+                return(
+                    <label><input type="checkbox" value={this.props.value} checked={this.props.checked} onClick={this.handleChange}/>{this.props.value}$</label>
+                );
+            }
+        }
+        class MyForm extends React.Component {
+
+            constructor(props) {
+                super(props);
+                this.state = {
+                    array: [
+                        { checked: false, value: 1 },
+                        { checked: false, value: 2 },
+                        { checked: false, value: 3 },
+                        { checked: false, value: 10 },
+                        { checked: false, value: 20 },
+                    ],
+                    sum: 0,
+                 };
+                this.handleSubmit = this.handleSubmit.bind(this);
+                this.submittedData = this.submittedData.bind(this);
+            }
+            submittedData(x, y){
+                console.log("------SENT DATA------")
+                console.log(x, y)
+                var array = this.state.array;
+                for(let i = 0; i < array.length; i++){
+                    if(array[i].value == x){
+                        array[i].checked = y;
+                    }
+                }
+                console.log(array);
+
+                if(y == true)
+                {
+                    this.setState({
+                        array: array,
+                        sum: this.state.sum + parseInt(x)
+                    })
+                }
+                else{
+                    this.setState({
+                        array: array,
+                        sum: this.state.sum - parseInt(x)
+                    })
+                }
+            }
+            handleSubmit(event) {
+                event.preventDefault();
+                window.alert("Sume: " + this.state.sum + "$");
+            }
+
+            render() {
+                var array = [];
+                for(var i = 0; i < this.state.array.length; i++){
+                    array.push(<MyCheckbox value={this.state.array[i].value} key={this.state.array[i].value}  handleSubmit={this.submittedData}/>);
+                }
+                return (
+                <form onSubmit={this.handleSubmit}>
+                    <h4>Formularz</h4>
+                    {array}
+                    <label id="suma" >suma: <p>{this.state.sum}</p>$</label>
+                    <input type="submit" value="Submit" onClick={this.handleSubmit}/>
+                </form>
+                );
+            }
+        }
+
+        ReactDOM.render(
+            <div><MyForm /></div>,
+            document.getElementById('react-app')
+        )
+    </script>
+</body>
+
+</html>

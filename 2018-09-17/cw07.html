@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React.js</title>
+    <script src="https://unpkg.com/react@16.0.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
+    <style>
+        .h {
+            display: block;
+            margin-left: 85px;
+            margin-top: 50px;
+        }
+
+        .b {
+            margin-left: 80px;
+        }
+
+        .timer {
+            width: 200px;
+            height: 200px;
+            border: 4px solid blue;
+            border-radius: 100px;
+            display: inline-block;
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="react-app"></div>
+    <script type="text/babel">
+        class Timer extends React.Component {
+            constructor() {            
+                super();
+                this.state = {
+                    counting: false,
+                    minutes: 0,
+                    seconds: 0,
+                    mili: 0
+                    };
+                this.onButtonClick = this.onButtonClick.bind(this);
+                this.intervalId;
+            }  
+
+            onButtonClick() {
+                if(this.state.counting == true){
+                    clearInterval(this.intervalId);
+                    this.setState({
+                        counting: false
+                    })
+                }
+                else{
+                    this.intervalId = setInterval(this.setTimer.bind(this), 1);
+                    this.setState({
+                        counting: true
+                    })
+                }
+            }
+
+            setTimer() {
+                if(this.state.counting == true){
+                    this.setState({
+                        mili: this.state.mili + 1
+                    })
+                    if(this.state.mili >= 1000)
+                    {
+                        this.setState({
+                            mili: 0,
+                            seconds: this.state.seconds + 1
+                        })
+                        
+                    }
+                    if(this.state.seconds >= 60){
+                        this.setState({
+                            seconds: 0,
+                            minutes: this.state.minutes + 1
+                        })
+                    }
+                }
+            }
+
+            render() {
+                return (
+                    <div className="timer">
+                        <h1 className="h">{this.state.minutes}:{this.state.seconds}:{this.state.mili}</h1>
+                        <button  className="b" onClick={this.onButtonClick}>Klik</button>
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(
+            <div><Timer /><Timer /><Timer /></div>,
+            document.getElementById('react-app')
+        )
+    </script>
+</body>
+
+</html>

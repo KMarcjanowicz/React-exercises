@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React.js</title>
+    <script src="https://unpkg.com/react@16.0.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.development.js"></script>
+    <style>
+        .klasa1 {
+            color: red;
+        }
+
+        .klasa2 {
+            color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="react-app"></div>
+    <script>
+        var square = React.createElement("div", {
+            style: {
+                width: "100px",
+                height: "100px",
+                backgroundColor: "red",
+                color: "white",
+                fontSize: "20px",
+                margin: "2px",
+                display: "inline-block"
+            }
+        },
+            "React comp"
+        )
+        var row = React.createElement("div", {
+            style: {
+                //width: "380px",
+                //height: "380px",
+                backgroundColor: "white",
+                margin: "2px",
+                border: "4px solid blue",
+            }
+        },
+            square,
+            square,
+            square
+        )
+        var table = React.createElement("div", {
+            style: {
+                width: "324px",
+                //height: "380px",
+                backgroundColor: "white",
+                margin: "2px",
+                border: "4px solid limegreen",
+                display: "inline-block"
+            }
+        },
+            row,
+            row,
+            row
+        )
+        var container = React.createElement("div", {
+            style: {
+                width: "1008px",
+                backgroundColor: "white",
+                margin: "2px",
+                border: "4px solid orange"
+            }
+        },
+            table,
+            table,
+            table
+        )
+        ReactDOM.render(container, document.getElementById('react-app'))
+    </script>
+</body>
+
+</html>

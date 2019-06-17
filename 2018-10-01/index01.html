@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React.js</title>
+    <script src="https://unpkg.com/react@16.0.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+    <style>
+        *{
+            margin: 0 auto;
+        }
+        div{
+            text-align: center;
+        }
+        header{
+            text-align: left;
+            background-color: #e8ffe8;
+            font-size: 3em;
+            font-family: Segoe UI,SegoeUI,"Helvetica Neue",Helvetica,Arial,sans-serif;
+            padding: 10px;
+            color: black;
+            height: 80px;
+        }
+        ul{
+            background-color: #fff4e8;
+            font-size: 2em;
+            height: 50px;
+        }
+        li{
+            padding-left:100px;
+            padding-right:100px;
+            display: inline;
+            font-family: Segoe UI,SegoeUI,"Helvetica Neue",Helvetica,Arial,sans-serif;
+        }
+        body{
+            background-color: #ffe8ff;
+        }
+        h2{
+            font-size: 7em;
+            font-family: Segoe UI,SegoeUI,"Helvetica Neue",Helvetica,Arial,sans-serif;
+            font-weight: bold;
+            color: rgb(49, 49, 49);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="react-app"></div>
+    <script type="text/babel">
+
+        class Home extends React.Component {
+            render() {
+                return (
+                    <h2>HOME</h2>
+                );
+            }
+        }
+        class About extends React.Component {
+            render() {
+                return (
+                    <h2>ABOUT</h2>
+                );
+            }
+        }
+        class Products extends React.Component {
+            render() {
+                return (
+                    <h2>PRODUCTS</h2>
+                );
+            }
+        }
+
+        class MyApp extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state= {
+                    route: window.location.hash.substr(1) // pobieramy dane z url-a
+                };
+            }
+            componentDidMount() {
+                window.addEventListener("hashchange", () => {
+                    this.setState({
+                        route: window.location.hash.substr(1)
+                    });
+                });
+            }
+
+            render() {
+                var Current; // bieżący komponent do wyświetlenia na stronie
+                switch (this.state.route) {
+                    case '/about': Current = About; break;
+                    case '/home': Current = Home; break;
+                    case '/products': Current = Products; break;
+                    default: Current = Home;
+                }
+                return (
+                    <div>
+                        <header>
+                            My Application
+                        </header>
+                        <ul>
+                            <li><a href="#/home"> Home </a></li>
+                            <li><a href="#/about"> About </a></li>
+                            <li><a href="#/products"> Products</a></li>
+                        </ul>
+                        <Current />
+                    </div>
+                );
+            }
+        }
+
+        ReactDOM.render(
+                <div><MyApp/></div>,
+                document.getElementById('react-app')
+            )
+    </script>
+</body>
+
+</html>
